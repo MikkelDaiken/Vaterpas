@@ -27,9 +27,10 @@ void setup() {
 void draw() {
   background(0);
   
-  final float tiltVectorLength = sq(ax * 50) + sq(ay * 50);
+  // Tjekker om bolden er i midten vha. pythagoras: a^2 + b^2 < c^2
+  final float differenceSquard = sq(ax * 50) + sq(ay * 50);
   
-  if (tiltVectorLength <= 20*20) {
+  if (differenceSquard <= 20*20) {
     background(0, 255, 0);
   }
 
@@ -40,24 +41,31 @@ void draw() {
   final int centerX = width/2;
   final int centerY = height/2;
 
+  // Grå cirkel i midten
   fill(80);
   circle(centerX, centerY, 100);
 
+  // Udregner den reele position
   final float goalX = centerX + ax * 50;
   final float goalY = centerY - ay * 50;
   
+  // Bevæger bolden mod den reele position
   final float lerpAmount = 0.1; //Styrer hvor hurtigt bolden bevæger sig mod målet
   ballX = lerp(ballX, goalX, lerpAmount);
   ballY = lerp(ballY, goalY, lerpAmount);
   
+  // Tegner den reele position og bolden
   fill(255, 0, 0);
   circle(goalX, goalY, 40);
+  
   fill(255);
   circle(ballX, ballY, 80);
   
+  // Udregner og viser vinklen til vandret
   final PVector upVector = new PVector(0, 0, 1);
   final PVector phoneVector = new PVector(ax, ay, az);
   final int angle = (int) degrees(PVector.angleBetween(upVector, phoneVector));
+  
   fill(0);
   textAlign(CENTER, CENTER);
   text(angle, centerX, centerY);
