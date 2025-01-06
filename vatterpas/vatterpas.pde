@@ -10,7 +10,6 @@ Sensor sensor;
 AccelerometerListener listener;
 float ax, ay, az;
 
-
 float ballX, ballY;
 
 void setup() {
@@ -27,11 +26,15 @@ void setup() {
 
 void draw() {
   background(0);
+  
   final float tiltVectorLength = sq(ax * 50) + sq(ay * 50);
+  
   if (tiltVectorLength <= 20*20) {
     background(0, 255, 0);
   }
 
+  fill(255);
+  textAlign(LEFT, TOP);
   text("X: " + ax + "\nY: " + ay + "\nZ: " + az, 0, 0, width, height);
 
   final int centerX = width/2;
@@ -43,7 +46,7 @@ void draw() {
   final float goalX = centerX + ax * 50;
   final float goalY = centerY - ay * 50;
   
-  final float lerpAmount = 0.1;
+  final float lerpAmount = 0.1; //Styrer hvor hurtigt bolden bevæger sig mod målet
   ballX = lerp(ballX, goalX, lerpAmount);
   ballY = lerp(ballY, goalY, lerpAmount);
   
@@ -51,6 +54,13 @@ void draw() {
   circle(goalX, goalY, 40);
   fill(255);
   circle(ballX, ballY, 80);
+  
+  final PVector upVector = new PVector(0, 0, 1);
+  final PVector phoneVector = new PVector(ax, ay, az);
+  final int angle = (int) degrees(PVector.angleBetween(upVector, phoneVector));
+  fill(0);
+  textAlign(CENTER, CENTER);
+  text(angle, centerX, centerY);
 }
 
 class AccelerometerListener implements SensorEventListener {
