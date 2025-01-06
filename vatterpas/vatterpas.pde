@@ -41,7 +41,7 @@ void draw() {
   circle(centerX, centerY, 100);
 
   final float goalX = centerX + ax * 50;
-  final float goalY = centerY + ay * 50;
+  final float goalY = centerY - ay * 50;
   
   final float lerpAmount = 0.1;
   ballX = lerp(ballX, goalX, lerpAmount);
